@@ -1130,9 +1130,18 @@
       z-index: 1050;
       width: 128px;
       height: 128px;
-      cursor: pointer;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
       transition: transform 8s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
+    }
+
+    .feriel-container:active,
+    .feriel-container.is-dragging {
+      cursor: grabbing;
+      transition: none !important;
     }
 
     .feriel-inner {
@@ -1403,6 +1412,8 @@
     .feriel-speech.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     .feriel-speech.speech-below {
@@ -6232,8 +6243,18 @@
       let isActive = true;
       let isHovered = false;
       let isTalking = false;
+      let isDragging = false;
+      let pointerDown = false;
+      let hasMoved = false;
+      let justDragged = false;
       let moveTimeout;
+      let danceTimeout;
       let messageIndex = 0;
+
+      let startPointerX = 0;
+      let startPointerY = 0;
+      let startElemX = 0;
+      let startElemY = 0;
 
       const messages = [
         "Olá! Eu sou a Mariel, a anjinha da Bom Jesus Artigos Religiosos. ✨💖 Seja muito bem-vindo(a) à nossa casa de fé em Aparecida do Norte! Fico muito feliz com a sua visita. Que a paz de Deus e o amor de Nossa Senhora iluminem o seu coração e a sua caminhada! 🕊️👼",
@@ -6242,10 +6263,63 @@
         "Muito obrigado pelo seu carinho e pela sua visita! 💖 Que o Bom Jesus guie cada passo seu e de sua família, trazendo paz, saúde e esperança. Volte sempre, será uma alegria receber você. Fé que ilumina sua caminhada! 👼✨🙏🏻"
       ];
 
+      // Retorna as coordenadas reais de translação atuais da mascote
+      function getCurrentTranslate() {
+        const st = window.getComputedStyle(container).transform;
+        if (!st || st === 'none') {
+          const rect = container.getBoundingClientRect();
+          return { x: rect.left || 0, y: rect.top || 0 };
+        }
+        if (window.DOMMatrixReadOnly) {
+          try {
+            const m = new DOMMatrixReadOnly(st);
+            return { x: m.m41, y: m.m42 };
+          } catch (e) {}
+        }
+        const m = st.match(/matrix\(([^)]+)\)/);
+        if (m) {
+          const p = m[1].split(',').map(s => parseFloat(s.trim()));
+          return { x: p[4] || 0, y: p[5] || 0 };
+        }
+        const m3 = st.match(/matrix3d\(([^)]+)\)/);
+        if (m3) {
+          const p = m3[1].split(',').map(s => parseFloat(s.trim()));
+          return { x: p[12] || 0, y: p[13] || 0 };
+        }
+        return { x: 0, y: 0 };
+      }
+
+      // Trava a mascote no local atual imediatamente (cancela qualquer transição em andamento)
+      function freezeInPlace() {
+        clearTimeout(moveTimeout);
+        clearTimeout(danceTimeout);
+        container.classList.remove('dancing');
+        const pos = getCurrentTranslate();
+        container.style.transition = 'none';
+        container.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+        void container.offsetHeight; // força repaint imediato no navegador
+        return pos;
+      }
+
+      // Posição inicial no canto superior direito da tela
+      function setInitialPosition() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const size = container.offsetWidth || 128;
+        const initX = Math.max(20, w - size - 50);
+        const initY = Math.max(30, Math.min(h - size - 100, 130));
+        container.style.transition = 'none';
+        container.style.transform = `translate(${initX}px, ${initY}px)`;
+        void container.offsetHeight;
+      }
+      setInitialPosition();
+
       function scheduleNextMove(delay = 0) {
         clearTimeout(moveTimeout);
         moveTimeout = setTimeout(() => {
-          if (!isActive || isHovered || isTalking) { scheduleNextMove(1000); return; }
+          // Quando estiver conversando, arrastando, desativada ou com hover, NÃO se desloca
+          if (!isActive || isHovered || isTalking || isDragging) return;
+
           const w = window.innerWidth;
           const h = window.innerHeight;
           const size = container.offsetWidth || 128;
@@ -6256,10 +6330,13 @@
           const availH = Math.max(20, h - size - padTop - padBottom);
           const x = Math.max(padX, Math.min(w - size - padX, Math.random() * availW + padX));
           const y = Math.max(padTop, Math.min(h - size - padBottom, Math.random() * availH + padTop));
+
+          container.style.transition = 'transform 8s cubic-bezier(0.4, 0, 0.2, 1)';
           container.style.transform = `translate(${x}px, ${y}px)`;
+
           if (Math.random() > 0.5) {
-            setTimeout(() => {
-              if (!isActive || isHovered || isTalking) return;
+            danceTimeout = setTimeout(() => {
+              if (!isActive || isHovered || isTalking || isDragging) return;
               container.classList.add('dancing');
               setTimeout(() => container.classList.remove('dancing'), 3000);
             }, 8000);
@@ -6267,46 +6344,164 @@
           scheduleNextMove(8000 + Math.random() * 7000);
         }, delay);
       }
-      scheduleNextMove(2000);
+      scheduleNextMove(3500);
 
+      // Atualiza posição do balão de fala se estiver próximo ao topo
+      function updateSpeechPosition() {
+        const rect = container.getBoundingClientRect();
+        if (rect.top < 190) {
+          speechBubble.classList.add('speech-below');
+        } else {
+          speechBubble.classList.remove('speech-below');
+        }
+      }
+
+      // Exibe mensagem no balão
+      function displayCurrentMessage() {
+        updateSpeechPosition();
+        speechBubble.innerHTML = `<span class="speech-text">${messages[messageIndex]}</span><div class="bump"></div>`;
+        speechBubble.classList.add('show');
+      }
+
+      // Avança a fala ou fecha o balão
+      function handleSpeechStep() {
+        if (!isTalking) {
+          // Iniciar conversa: congela imediatamente no lugar exato onde está
+          freezeInPlace();
+          isTalking = true;
+          messageIndex = 0;
+          container.classList.add('talking');
+          displayCurrentMessage();
+        } else {
+          messageIndex++;
+          if (messageIndex < messages.length) {
+            displayCurrentMessage();
+          } else {
+            // Fim da conversa: fecha balão e retoma o voo suave
+            speechBubble.classList.remove('show');
+            isTalking = false;
+            container.classList.remove('talking');
+            container.style.transition = 'transform 8s cubic-bezier(0.4, 0, 0.2, 1)';
+            scheduleNextMove(2500);
+          }
+        }
+      }
+
+      // Hover
       container.addEventListener('mouseenter', () => {
         isHovered = true;
         if (!isTalking) container.classList.remove('dancing');
         clearTimeout(moveTimeout);
       });
+
       container.addEventListener('mouseleave', () => {
         isHovered = false;
-        if (!isTalking) scheduleNextMove(1000);
+        if (!isTalking && !isDragging) {
+          scheduleNextMove(1200);
+        }
       });
 
+      // DRAG & DROP: Clicar, segurar e arrastar a mascote Mariel
+      container.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('#toggleFeriel')) return;
+
+        pointerDown = true;
+        hasMoved = false;
+        isDragging = false;
+        startPointerX = e.clientX;
+        startPointerY = e.clientY;
+
+        // Congela e captura a posição exata
+        const currentPos = freezeInPlace();
+        startElemX = currentPos.x;
+        startElemY = currentPos.y;
+
+        try {
+          container.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!pointerDown) return;
+
+        const dx = e.clientX - startPointerX;
+        const dy = e.clientY - startPointerY;
+
+        if (!isDragging && Math.hypot(dx, dy) > 5) {
+          isDragging = true;
+          hasMoved = true;
+          container.classList.add('is-dragging');
+        }
+
+        if (isDragging) {
+          e.preventDefault();
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+          const size = container.offsetWidth || 128;
+          const pad = 10;
+          const maxX = Math.max(pad, w - size - pad);
+          const maxY = Math.max(pad, h - size - pad);
+
+          const targetX = Math.min(Math.max(startElemX + dx, pad), maxX);
+          const targetY = Math.min(Math.max(startElemY + dy, pad), maxY);
+
+          container.style.transition = 'none';
+          container.style.transform = `translate(${targetX}px, ${targetY}px)`;
+
+          if (isTalking) {
+            updateSpeechPosition();
+          }
+        }
+      });
+
+      function handlePointerEnd(e) {
+        if (!pointerDown) return;
+        pointerDown = false;
+
+        try {
+          container.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+
+        container.classList.remove('is-dragging');
+
+        if (hasMoved) {
+          // Houve arraste: previne clique indevido
+          justDragged = true;
+          setTimeout(() => { justDragged = false; }, 120);
+
+          // Se NÃO estiver conversando, aguarda 8s antes de retomar voo
+          if (!isTalking) {
+            setTimeout(() => {
+              if (!isTalking && !isDragging) {
+                container.style.transition = 'transform 8s cubic-bezier(0.4, 0, 0.2, 1)';
+                scheduleNextMove(8000);
+              }
+            }, 50);
+          }
+          // Se estiver conversando, permanece parada exatamente no local solto!
+        }
+      }
+
+      window.addEventListener('pointerup', handlePointerEnd);
+      window.addEventListener('pointercancel', handlePointerEnd);
+
+      // Clique simples na mascote para avançar/abrir diálogo
       container.addEventListener('click', (e) => {
         if (e.target.closest('#toggleFeriel')) return;
-        if (!isTalking) {
-          isTalking = true;
-          messageIndex = 0;
-          container.classList.remove('dancing');
-          container.classList.add('talking');
-          clearTimeout(moveTimeout);
-        } else {
-          messageIndex++;
+        if (justDragged) {
+          justDragged = false;
+          return;
         }
-        if (messageIndex < messages.length) {
-          const rect = container.getBoundingClientRect();
-          if (rect.top < 190) {
-            speechBubble.classList.add('speech-below');
-          } else {
-            speechBubble.classList.remove('speech-below');
-          }
-          speechBubble.textContent = messages[messageIndex];
-          speechBubble.classList.add('show');
-        } else {
-          speechBubble.classList.remove('show');
-          isTalking = false;
-          container.classList.remove('talking');
-          scheduleNextMove(1000);
-        }
+        handleSpeechStep();
       });
 
+      // Clique no balão de fala também avança
+      speechBubble.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handleSpeechStep();
+      });
+
+      // Botão desativar
       if (btnToggle) {
         btnToggle.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -6314,6 +6509,7 @@
           container.classList.add('is-deactivated');
           if (activator) activator.classList.add('show');
           clearTimeout(moveTimeout);
+          clearTimeout(danceTimeout);
           speechBubble.classList.remove('show');
           isTalking = false;
           container.classList.remove('talking');
@@ -6321,12 +6517,15 @@
         });
       }
 
+      // Ativador da mascote
       if (activator) {
         activator.addEventListener('click', () => {
           isActive = true;
           container.classList.remove('is-deactivated');
           activator.classList.remove('show');
-          scheduleNextMove(1000);
+          setInitialPosition();
+          container.style.transition = 'transform 8s cubic-bezier(0.4, 0, 0.2, 1)';
+          scheduleNextMove(2000);
         });
       }
     })();
