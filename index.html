@@ -276,9 +276,12 @@
 
     .brand-txt {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
       line-height: 1.05;
       justify-content: center;
+      white-space: nowrap;
     }
 
     .brand-txt strong {
@@ -287,10 +290,10 @@
       font-size: 2.85rem;
       /* LETRAS GRANDES */
       letter-spacing: .02em;
-      line-height: 1.04;
+      line-height: 1.25;
       text-transform: none;
       display: inline-block;
-      padding: 2px 6px 0 2px;
+      padding: 7px 8px 10px 4px;
       overflow: visible;
       text-shadow: 0 0 22px rgba(212, 175, 55, .55);
       transition: text-shadow .4s, transform .3s;
@@ -303,10 +306,10 @@
 
     .brand-txt .brand-tag {
       font-size: .58rem;
-      letter-spacing: .28em;
+      letter-spacing: .18em;
       text-transform: uppercase;
       color: rgba(246, 243, 236, .65);
-      margin-top: -3px;
+      margin-top: 0;
     }
 
     .nav {
@@ -2117,6 +2120,14 @@
       margin: -6px 0 44px;
     }
 
+    .favorite-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
     .report-hint {
       font-size: .85rem;
       color: rgba(246, 243, 236, .6);
@@ -2255,6 +2266,16 @@
       cursor: zoom-in;
     }
 
+    .card-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 10px 12px;
+      background: rgba(0, 3, 10, .72);
+      border-bottom: 1px solid rgba(212, 175, 55, .14);
+    }
+
     .card-media::after {
       content: '';
       position: absolute;
@@ -2295,9 +2316,8 @@
    BOTÃO DE SELEÇÃO NO CARD
    ============================================================ */
     .card-select {
-      position: absolute;
-      top: 12px;
-      left: 12px;
+      position: relative;
+      flex: 0 0 34px;
       z-index: 6;
       width: 34px;
       height: 34px;
@@ -2321,12 +2341,24 @@
     }
 
     .card-select .card-select-check {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
       font-size: .95rem;
       font-weight: 700;
-      opacity: 0;
-      transform: scale(.5);
-      transition: opacity .25s, transform .25s;
       line-height: 1;
+    }
+
+    .card-select .card-select-check svg {
+      display: block;
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.8;
     }
 
     .card-select.is-selected {
@@ -2334,11 +2366,6 @@
       border-color: transparent;
       color: #0a1020;
       box-shadow: 0 0 28px -6px rgba(212, 175, 55, 1);
-    }
-
-    .card-select.is-selected .card-select-check {
-      opacity: 1;
-      transform: scale(1);
     }
 
     .badge {
@@ -2469,6 +2496,116 @@
       justify-content: center;
       padding: 12px 18px;
       font-size: .68rem
+    }
+
+    .card-cart-quantity {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(76px, 96px);
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(212, 175, 55, .28);
+      border-radius: 12px;
+      background: rgba(212, 175, 55, .06);
+    }
+
+    .card-tools .card-cart-quantity {
+      flex: 0 1 190px;
+      width: min(190px, calc(100% - 44px));
+      grid-template-columns: minmax(0, 1fr) 64px;
+      gap: 8px;
+      padding: 6px 8px;
+      border-color: rgba(212, 175, 55, .48);
+      background: rgba(0, 3, 10, .9);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .card-tools .card-cart-quantity label {
+      font-size: .7rem;
+    }
+
+    .card-tools .card-cart-quantity input {
+      min-height: 34px;
+      padding: 4px 6px;
+    }
+
+    .card-favorite {
+      display: grid;
+      place-items: center;
+      flex: 0 0 34px;
+      width: 34px;
+      height: 34px;
+      margin-left: auto;
+      border: 1.5px solid rgba(212, 175, 55, .55);
+      border-radius: 50%;
+      color: var(--dourado-claro);
+      background: rgba(0, 3, 10, .8);
+      transition: transform .3s, color .3s, background .3s, border-color .3s;
+      cursor: pointer;
+    }
+
+    .card-favorite:hover {
+      transform: scale(1.08);
+      border-color: var(--dourado);
+    }
+
+    .card-favorite svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-favorite.is-favorite {
+      color: #0a1020;
+      background: linear-gradient(135deg, #b8912a, #f9efc0 55%, #b8912a);
+      border-color: transparent;
+    }
+
+    .card-favorite.is-favorite svg {
+      fill: currentColor;
+    }
+
+    .card-cart-quantity[hidden] {
+      display: none;
+    }
+
+    .card-cart-quantity label {
+      display: grid;
+      gap: 2px;
+      color: rgba(246, 243, 236, .9);
+      font-size: .78rem;
+      font-weight: 500;
+    }
+
+    .card-cart-quantity label span {
+      color: rgba(246, 243, 236, .48);
+      font-size: .62rem;
+      font-weight: 300;
+    }
+
+    .card-cart-quantity input {
+      width: 100%;
+      min-width: 0;
+      min-height: 38px;
+      padding: 6px 9px;
+      border: 1px solid rgba(212, 175, 55, .42);
+      border-radius: 8px;
+      background: rgba(0, 3, 10, .8);
+      color: var(--perola);
+      font: 500 .9rem var(--font-body);
+      text-align: center;
+      color-scheme: dark;
+    }
+
+    .card-cart-quantity input:focus {
+      outline: 2px solid rgba(212, 175, 55, .6);
+      outline-offset: 1px;
     }
 
     .empty {
@@ -3504,6 +3641,10 @@
     }
 
     @media (max-width: 860px) {
+      .brand-loc-left {
+        display: none;
+      }
+
       .nav {
         display: none;
         position: absolute;
@@ -3925,46 +4066,169 @@
 
     .report-item {
       display: grid;
-      grid-template-columns: 54px 1fr auto;
-      gap: 16px;
+      grid-template-columns: 26px 44px minmax(0, 1fr) 28px;
+      gap: 6px 10px;
       align-items: center;
-      padding: 14px 0;
+      padding: 8px 0;
       border-bottom: 1px dashed rgba(212, 175, 55, .16);
     }
 
-    .report-item:last-of-type {
+    .report-item-number {
+      color: rgba(212, 175, 55, .9);
+      font-size: .68rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .report-item:last-child {
       border-bottom: none;
     }
 
     .report-item-thumb {
-      width: 54px;
-      height: 54px;
-      border-radius: 10px;
-      object-fit: cover;
+      width: 42px;
+      height: 42px;
+      border-radius: 7px;
+      object-fit: contain;
       background: radial-gradient(circle at 50% 40%, #0a1a38, #000103);
       border: 1px solid rgba(212, 175, 55, .25);
     }
 
     .report-item-name {
       font-family: var(--font-title);
-      font-size: 1rem;
+      font-size: .9rem;
       color: var(--perola);
-      line-height: 1.3;
+      line-height: 1.2;
+    }
+
+    .report-item-details {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 2px 8px;
+      margin-top: 3px;
+      font-size: .64rem;
+      line-height: 1.25;
+      color: rgba(246, 243, 236, .58);
     }
 
     .report-item-code {
-      font-size: .62rem;
-      letter-spacing: .24em;
-      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: .08em;
       color: rgba(212, 175, 55, .8);
-      margin-top: 2px;
     }
 
-    .report-item-specs {
-      font-size: .72rem;
-      color: rgba(246, 243, 236, .5);
-      margin-top: 4px;
-      font-weight: 300;
+    .favorites-report-meta {
+      margin-bottom: 12px;
+    }
+
+    .favorites-report-table-wrap {
+      overflow-x: auto;
+    }
+
+    .favorites-report-table {
+      width: 100%;
+      min-width: 640px;
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    .favorites-report-table th,
+    .favorites-report-table td {
+      padding: 5px 6px;
+      border-bottom: 1px solid rgba(212, 175, 55, .2);
+      text-align: left;
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+    }
+
+    .favorites-report-table th {
+      color: var(--dourado-claro);
+      font-size: .62rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .favorites-report-table th:first-child,
+    .favorites-report-table td:first-child {
+      width: 38px;
+      text-align: center;
+    }
+
+    .favorites-report-table th:nth-child(2),
+    .favorites-report-table td:nth-child(2) {
+      width: 58px;
+    }
+
+    .favorites-report-image {
+      display: block;
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border: 1px solid rgba(212, 175, 55, .25);
+      border-radius: 8px;
+      background: radial-gradient(circle at 50% 40%, #0a1a38, #000103);
+    }
+
+    .favorites-report-empty {
+      padding: 32px 12px;
+      text-align: center;
+      color: rgba(246, 243, 236, .58);
+    }
+
+    .report-item-controls {
+      grid-column: 3 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+      gap: 8px;
+    }
+
+    .report-field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      min-width: 0;
+      color: rgba(246, 243, 236, .55);
+      font-size: .55rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .report-field > span {
+      min-width: 0;
+    }
+
+    .report-field input {
+      width: 58%;
+      min-width: 0;
+      min-height: 30px;
+      padding: 4px 7px;
+      border: 1px solid rgba(212, 175, 55, .32);
+      border-radius: 9px;
+      background: rgba(0, 3, 10, .72);
+      color: var(--perola);
+      font: 500 .8rem var(--font-body);
+      letter-spacing: normal;
+      color-scheme: dark;
+    }
+
+    .report-field input:focus {
+      outline: 2px solid rgba(212, 175, 55, .6);
+      outline-offset: 1px;
+    }
+
+    .report-line-total {
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 58%;
+      color: var(--dourado-claro);
+      font-weight: 600;
+      font-size: .82rem;
     }
 
     .report-item-remove {
@@ -3992,12 +4256,50 @@
       font-weight: 300;
     }
 
+    .report-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+      padding: 18px 20px;
+      border: 1px solid rgba(212, 175, 55, .36);
+      border-radius: 14px;
+      background: rgba(212, 175, 55, .07);
+    }
+
+    .report-summary-label {
+      color: rgba(246, 243, 236, .72);
+      font-size: .8rem;
+    }
+
+    .report-summary-label b,
+    .report-summary-total {
+      color: var(--dourado-claro);
+      font-weight: 600;
+    }
+
+    .report-summary-total {
+      font-size: 1.3rem;
+      white-space: nowrap;
+    }
+
     .report-actions {
       margin-top: 28px;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       justify-content: center;
+    }
+
+    .report-actions .btn {
+      justify-content: center;
+    }
+
+    .report-actions [aria-disabled="true"] {
+      opacity: .45;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .report-footer {
@@ -4010,6 +4312,338 @@
       font-weight: 300;
       letter-spacing: .04em;
       line-height: 1.7;
+    }
+
+    @media (max-width: 560px) {
+      .report-modal {
+        padding: 10px;
+      }
+
+      .report-sheet {
+        margin: 10px auto;
+        padding: 26px 18px;
+      }
+
+      .report-item {
+        grid-template-columns: 22px 40px minmax(0, 1fr) 26px;
+        gap: 5px 7px;
+      }
+
+      .report-item-thumb {
+        width: 38px;
+        height: 38px;
+      }
+
+      .report-item-controls {
+        grid-column: 3 / -1;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .report-field {
+        display: grid;
+        gap: 2px;
+      }
+
+      .report-field input,
+      .report-line-total {
+        width: 100%;
+      }
+
+      .report-item-details {
+        font-size: .6rem;
+      }
+
+      .report-field {
+        font-size: .5rem;
+      }
+
+      .report-summary {
+        padding: 14px;
+      }
+
+      .report-summary-total {
+        font-size: 1.08rem;
+      }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 14mm;
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        color: #555;
+        font-family: Arial, sans-serif;
+        font-size: 9pt;
+      }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+
+      body.print-cart > :not(#reportModal) {
+        display: none !important;
+      }
+
+      #reportModal,
+      #reportModal * {
+        visibility: visible !important;
+      }
+
+      #reportModal {
+        position: static !important;
+        display: block !important;
+        inset: auto !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: #fff !important;
+        color: #111 !important;
+        backdrop-filter: none !important;
+      }
+
+      #reportModal .report-sheet {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      #reportModal .report-brand {
+        gap: 8px;
+        margin-bottom: 2px;
+      }
+
+      #reportModal .report-brand img {
+        width: 36px !important;
+        height: 36px !important;
+      }
+
+      #reportModal .report-brand h2 {
+        font-size: 20pt;
+      }
+
+      #reportModal .report-sub {
+        margin: 3px 0 2px;
+        font-size: 7pt;
+      }
+
+      #reportModal .report-meta {
+        margin: 0 0 7px;
+        padding-bottom: 6px;
+        font-size: 8pt;
+      }
+
+      #reportModal > .report-sheet > .report-item-specs {
+        margin: 0 0 5px;
+        font-size: 7pt;
+      }
+
+      #reportModal .report-close,
+      #reportModal .report-actions,
+      #reportModal .report-item-remove {
+        display: none !important;
+      }
+
+      #reportModal .report-brand h2,
+      #reportModal .report-brand small,
+      #reportModal .report-sub,
+      #reportModal .report-meta,
+      #reportModal .report-item-number,
+      #reportModal .report-item-name,
+      #reportModal .report-item-code,
+      #reportModal .report-item-details,
+      #reportModal .report-item-specs,
+      #reportModal .report-field,
+      #reportModal .report-line-total,
+      #reportModal .report-summary-label,
+      #reportModal .report-summary-total,
+      #reportModal .report-footer {
+        color: #111 !important;
+      }
+
+      #reportModal .report-meta,
+      #reportModal .report-item,
+      #reportModal .report-summary,
+      #reportModal .report-footer {
+        border-color: #bbb !important;
+      }
+
+      #reportModal .report-footer {
+        margin-top: 8px;
+        padding-top: 6px;
+        font-size: 7pt;
+      }
+
+      #reportModal .report-summary {
+        background: #f5f5f5 !important;
+        break-inside: avoid;
+        margin-top: 7px;
+        padding: 7px 10px;
+      }
+
+      #reportModal .report-item {
+        break-inside: avoid;
+        padding: 4px 0 !important;
+        gap: 3px 7px !important;
+      }
+
+      #reportModal .report-item-thumb {
+        width: 34px !important;
+        height: 34px !important;
+      }
+
+      #reportModal .report-item-name {
+        font-size: 9pt !important;
+        line-height: 1.1 !important;
+      }
+
+      #reportModal .report-item-details {
+        margin-top: 1px !important;
+        gap: 1px 6px !important;
+        font-size: 7pt !important;
+        line-height: 1.15 !important;
+        color: #111 !important;
+      }
+
+      #reportModal .report-item-controls {
+        gap: 6px !important;
+      }
+
+      #reportModal .report-field {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 4px !important;
+        font-size: 6.5pt !important;
+      }
+
+      #reportModal .report-field input {
+        width: 55% !important;
+        text-align: right;
+      }
+
+      #reportModal .report-line-total {
+        width: 55% !important;
+        justify-content: flex-end !important;
+      }
+
+      #reportModal .report-field input,
+      #reportModal .report-line-total {
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 0 !important;
+        font-size: 8pt !important;
+      }
+
+      #reportModal .report-field input {
+        border: 0 !important;
+        background: transparent !important;
+        color: #111 !important;
+        appearance: none;
+      }
+
+      #reportModal .report-item-thumb {
+        print-color-adjust: exact;
+      }
+
+      body.print-favorites #reportModal {
+        display: none !important;
+        visibility: hidden !important;
+      }
+
+      body.print-favorites > :not(#favoritesReportModal) {
+        display: none !important;
+      }
+
+      body.print-favorites #favoritesReportModal,
+      body.print-favorites #favoritesReportModal * {
+        visibility: visible !important;
+      }
+
+      body.print-favorites #favoritesReportModal {
+        position: static !important;
+        display: block !important;
+        inset: auto !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: #fff !important;
+        color: #111 !important;
+        backdrop-filter: none !important;
+      }
+
+      body.print-favorites #favoritesReportModal .report-sheet {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      body.print-favorites #favoritesReportModal .report-close,
+      body.print-favorites #favoritesReportModal .report-actions {
+        display: none !important;
+      }
+
+      body.print-favorites #favoritesReportModal .report-brand h2,
+      body.print-favorites #favoritesReportModal .report-brand small,
+      body.print-favorites #favoritesReportModal .report-sub,
+      body.print-favorites #favoritesReportModal .report-meta,
+      body.print-favorites #favoritesReportModal .favorites-report-table {
+        color: #111 !important;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table th,
+      body.print-favorites #favoritesReportModal .favorites-report-table td {
+        border-color: #bbb !important;
+        color: #111 !important;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table {
+        min-width: 0;
+        font-size: 8pt;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table th,
+      body.print-favorites #favoritesReportModal .favorites-report-table td {
+        padding: 3px 5px !important;
+        line-height: 1.15 !important;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table th:first-child,
+      body.print-favorites #favoritesReportModal .favorites-report-table td:first-child {
+        width: 28px;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table th:nth-child(2),
+      body.print-favorites #favoritesReportModal .favorites-report-table td:nth-child(2) {
+        width: 58px;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-table tr {
+        break-inside: avoid;
+      }
+
+      body.print-favorites #favoritesReportModal .favorites-report-image {
+        width: 32px;
+        height: 32px;
+        print-color-adjust: exact;
+      }
     }
 
     /* ============================================================
@@ -4403,9 +5037,17 @@
         <div class="result-info" id="resultInfo" aria-live="polite"></div>
 
         <div class="report-cta-wrap">
-          <p class="report-hint">Selecione as peças que desejar (marque <b>✓</b> no canto de cada peça) e monte sua
-            lista de orçamento.</p>
-          <button class="btn btn-ghost" id="openReportTop" type="button">✦ Ver Minha Lista de Orçamento</button>
+          <p class="report-hint">Adicione itens ao carrinho para preparar um orçamento ou marque seus favoritos para
+            consultar depois.</p>
+          <button class="btn btn-ghost" id="openReportTop" type="button">✦ Ver carrinho de orçamento</button>
+          <div class="favorite-actions">
+            <button class="btn btn-ghost" id="toggleFavoritesFilter" type="button" aria-pressed="false">
+              ☆ Filtrar favoritos (0)
+            </button>
+            <button class="btn btn-ghost" id="openFavoritesReport" type="button" disabled>
+              ♡ Relatório de favoritos
+            </button>
+          </div>
         </div>
 
         <div id="produtos-wrap"></div>
@@ -5215,20 +5857,30 @@
       <button class="report-close" id="reportClose" aria-label="Fechar">✕</button>
 
       <div class="report-brand">
-        <img src="img/logo.png" alt="Bom Jesus" width="52" height="52"
-          style="width: 52px !important; height: 52px !important; max-width: 52px !important; max-height: 52px !important; border-radius: 50% !important; object-fit: cover !important;">
+        <img src="img/logo.png" alt="Bom Jesus" width="52" height="52">
         <div>
           <h2 class="gold" id="reportTitle">Bom Jesus</h2>
           <small>Artigos Religiosos · Transformando fé em devoção.</small>
         </div>
       </div>
 
-      <p class="report-sub">Lista de Orçamento</p>
+      <p class="report-sub">Carrinho de Produtos · Orçamento</p>
       <p class="report-meta" id="reportMeta"></p>
+      <p class="report-item-specs">Edite a quantidade e o valor unitário de cada produto. Os valores começam em R$ 0,00.</p>
 
       <div id="reportItems"></div>
+      <div class="report-summary" id="reportSummary" aria-live="polite">
+        <span class="report-summary-label">Unidades no carrinho: <b id="cartQuantityTotal">0</b></span>
+        <strong class="report-summary-total" id="cartGrandTotal">R$ 0,00</strong>
+      </div>
 
-      <div class="report-actions" id="reportActions"></div>
+      <div class="report-actions" id="reportActions">
+        <button class="btn btn-ghost" id="addProducts" type="button">Adicionar produtos</button>
+        <button class="btn btn-ghost" id="printCart" type="button">Imprimir A4</button>
+        <a class="btn btn-gold" id="sendWhats" target="_blank" rel="noopener" href="#">Enviar pelo WhatsApp</a>
+        <a class="btn btn-ghost" id="sendEmail" href="#">Enviar por e-mail</a>
+        <button class="btn btn-ghost" id="reportCloseBtn" type="button">Fechar</button>
+      </div>
 
       <div class="report-footer">
         Bom Jesus Artigos Religiosos · Avenida Dr. Júlio Prestes, s/n — Centro de Apoio aos Romeiros<br>
@@ -5239,11 +5891,41 @@
     </div>
   </div>
 
+  <!-- RELATÓRIO DE FAVORITOS -->
+  <div class="report-modal" id="favoritesReportModal" role="dialog" aria-modal="true"
+    aria-labelledby="favoritesReportTitle">
+    <div class="report-sheet">
+      <button class="report-close" id="favoritesReportClose" type="button" aria-label="Fechar relatório">✕</button>
+
+      <div class="report-brand">
+        <img src="img/logo.png" alt="Bom Jesus" width="52" height="52">
+        <div>
+          <h2 class="gold" id="favoritesReportTitle">Bom Jesus</h2>
+          <small>Artigos Religiosos · Transformando fé em devoção.</small>
+        </div>
+      </div>
+
+      <p class="report-sub">Relatório de Produtos Favoritos</p>
+      <p class="report-meta favorites-report-meta" id="favoritesReportMeta"></p>
+      <div class="favorites-report-table-wrap" id="favoritesReportContent"></div>
+
+      <div class="report-actions">
+        <button class="btn btn-gold" id="printFavorites" type="button">Imprimir / Salvar em PDF</button>
+        <button class="btn btn-ghost" id="closeFavoritesReport" type="button">Fechar</button>
+      </div>
+      <div class="report-footer">
+        Bom Jesus Artigos Religiosos · Avenida Dr. Júlio Prestes, s/n — Centro de Apoio aos Romeiros<br>
+        Asa Norte · Rua 1, nº 26 · CEP 12576-028 · CNPJ 68.352.988/0001-91 · Aparecida/SP<br>
+        contato@bomjesus.com.br · (12) 98199-7550
+      </div>
+    </div>
+  </div>
+
   <!-- BARRA DE SELEÇÃO FLUTUANTE -->
   <div class="selection-bar" id="selectionBar" aria-live="polite">
-    <span class="selection-count"><b id="selectionCount">0</b> peça(s) selecionada(s)</span>
-    <button class="btn btn-ghost" id="openReport">Ver lista</button>
-    <button class="btn btn-gold" id="clearSelection">Limpar</button>
+    <span class="selection-count"><b id="selectionCount">0</b> <span id="selectionCountLabel">unidades no carrinho</span></span>
+    <button class="btn btn-ghost" id="openReport" type="button">Ver carrinho</button>
+    <button class="btn btn-gold" id="clearSelection" type="button">Limpar carrinho</button>
   </div>
 
   <script>
@@ -5555,34 +6237,72 @@
     window.imgFallback = imgFallback;
 
     /* ============================================================
-       SELEÇÃO (localStorage)
+       CARRINHO (localStorage)
        ============================================================ */
-    // STORAGE_KEY definido nas constantes
     const Selection = {
       load() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
-          return raw ? JSON.parse(raw) : [];
-        } catch (e) { return []; }
+          if (!raw) return [];
+
+          const stored = JSON.parse(raw);
+          const items = Array.isArray(stored)
+            ? stored.map(codigo => ({ codigo, quantidade: 1, valorUnitario: 0 }))
+            : stored.items;
+          if (!Array.isArray(items)) return [];
+
+          return items.filter(item =>
+            item &&
+            typeof item.codigo === 'string' &&
+            PRODUCTS.some(p => p.codigo === item.codigo)
+          ).map(item => ({
+            codigo: item.codigo,
+            quantidade: Number.isInteger(item.quantidade) && item.quantidade > 0 ? item.quantidade : 1,
+            valorUnitario: Number.isInteger(item.valorUnitario) && item.valorUnitario >= 0
+              ? item.valorUnitario
+              : Math.max(0, Math.round(Number(item.valorUnitario) * 100) || 0)
+          }));
+        } catch (e) {
+          console.error('Não foi possível carregar o carrinho salvo.', e);
+          return [];
+        }
       },
-      save(ids) {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ids)); } catch (e) { }
+      save() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: this.items }));
+        } catch (e) {
+          console.error('Não foi possível salvar o carrinho.', e);
+        }
       },
-      ids: [],
+      items: [],
+      get ids() { return this.items.map(item => item.codigo); },
       init() {
-        this.ids = this.load();
+        this.items = this.load();
         this.render();
       },
-      has(id) { return this.ids.includes(id); },
+      get(id) { return this.items.find(item => item.codigo === id); },
+      has(id) { return !!this.get(id); },
       toggle(id) {
-        if (this.has(id)) this.ids = this.ids.filter(x => x !== id);
-        else this.ids.push(id);
-        this.save(this.ids);
+        const item = this.get(id);
+        if (item) this.items = this.items.filter(cartItem => cartItem.codigo !== id);
+        else this.items.push({ codigo: id, quantidade: 1, valorUnitario: 0 });
+        this.save();
         this.render();
+      },
+      remove(id) {
+        this.items = this.items.filter(item => item.codigo !== id);
+        this.save();
+        this.render();
+      },
+      update(id, field, value) {
+        const item = this.get(id);
+        if (!item) return;
+        item[field] = value;
+        this.save();
       },
       clear() {
-        this.ids = [];
-        this.save(this.ids);
+        this.items = [];
+        this.save();
         this.render();
       },
       render() {
@@ -5592,12 +6312,100 @@
           btn.classList.toggle('is-selected', on);
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
           const card = btn.closest('.card');
-          if (card) card.classList.toggle('is-selected', on);
+          if (card) {
+            card.classList.toggle('is-selected', on);
+            const product = PRODUCTS[Number(card.dataset.pi)];
+            if (product) {
+              btn.setAttribute(
+                'aria-label',
+                `${on ? 'Remover' : 'Adicionar'} ${product.nome} ${on ? 'do carrinho' : 'ao carrinho'}`
+              );
+              btn.title = on ? 'Remover do carrinho' : 'Adicionar ao carrinho';
+            }
+            const icon = btn.querySelector('.card-select-check');
+            if (icon) {
+              icon.innerHTML = on
+                ? '✓'
+                : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 9H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>';
+            }
+            const quantityControl = card.querySelector('.card-cart-quantity');
+            const quantityInput = quantityControl && quantityControl.querySelector('input');
+            const cartItem = this.get(id);
+            if (quantityControl) quantityControl.hidden = !on;
+            if (quantityInput && cartItem && document.activeElement !== quantityInput) {
+              quantityInput.value = cartItem.quantidade;
+            }
+          }
         });
         const bar = document.getElementById('selectionBar');
         const count = document.getElementById('selectionCount');
-        if (count) count.textContent = this.ids.length;
-        if (bar) bar.classList.toggle('show', this.ids.length > 0);
+        const countLabel = document.getElementById('selectionCountLabel');
+        const total = this.items.reduce((sum, item) => sum + item.quantidade, 0);
+        if (count) count.textContent = total;
+        if (countLabel) countLabel.textContent = total === 1 ? 'unidade no carrinho' : 'unidades no carrinho';
+        if (bar) bar.classList.toggle('show', total > 0);
+      }
+    };
+
+    const FAVORITES_STORAGE_KEY = 'bomjesus_favorites_v1';
+    const Favorites = {
+      items: [],
+      load() {
+        try {
+          const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
+          if (!raw) return [];
+          const stored = JSON.parse(raw);
+          if (!Array.isArray(stored)) return [];
+          return [...new Set(stored.filter(code =>
+            typeof code === 'string' && PRODUCTS.some(product => product.codigo === code)
+          ))];
+        } catch (e) {
+          console.error('Não foi possível carregar os favoritos salvos.', e);
+          return [];
+        }
+      },
+      save() {
+        try {
+          localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(this.items));
+        } catch (e) {
+          console.error('Não foi possível salvar os favoritos.', e);
+        }
+      },
+      init() {
+        this.items = this.load();
+      },
+      has(code) {
+        return this.items.includes(code);
+      },
+      toggle(code) {
+        if (this.has(code)) this.items = this.items.filter(item => item !== code);
+        else this.items.push(code);
+        this.save();
+        applyFilters();
+      },
+      render() {
+        document.querySelectorAll('.card-favorite').forEach(button => {
+          const favorite = this.has(button.dataset.codigo);
+          button.classList.toggle('is-favorite', favorite);
+          button.setAttribute('aria-pressed', favorite ? 'true' : 'false');
+          button.setAttribute(
+            'aria-label',
+            `${favorite ? 'Remover' : 'Adicionar'} ${button.dataset.nome} ${favorite ? 'dos' : 'aos'} favoritos`
+          );
+          button.title = favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos';
+        });
+
+        const filterButton = document.getElementById('toggleFavoritesFilter');
+        const reportButton = document.getElementById('openFavoritesReport');
+        if (filterButton) {
+          filterButton.textContent = estado.favoritesOnly
+            ? '★ Mostrar catálogo completo'
+            : `☆ Filtrar favoritos (${this.items.length})`;
+          filterButton.classList.toggle('btn-gold', estado.favoritesOnly);
+          filterButton.classList.toggle('btn-ghost', !estado.favoritesOnly);
+          filterButton.setAttribute('aria-pressed', estado.favoritesOnly ? 'true' : 'false');
+        }
+        if (reportButton) reportButton.disabled = this.items.length === 0;
       }
     };
 
@@ -5606,6 +6414,7 @@
        ============================================================ */
     function buildCard(p, pi) {
       const isSelected = Selection.has(p.codigo);
+      const cartItem = Selection.get(p.codigo);
       const thumbs = p.imgs > 1 ? `
         <div class="thumbs">
           ${Array.from({ length: p.imgs }, (_, i) =>
@@ -5613,22 +6422,40 @@
       ).join('')}
         </div>` : '';
 
-      const msgWhats = encodeURIComponent(
-        `Olá, Bom Jesus! Tenho interesse na peça:\n\n• ${p.nome}\n• Código: ${p.codigo.toUpperCase()}\n• Material: ${p.material}\n• Medidas: ${p.medidas}\n• Peso: ${p.peso}\n\nPoderia me passar mais informações?`
-      );
-
       const subgrupoLabel = SUBGRUPO_LABELS[p.subgrupo] || p.subgrupo;
 
       return `
         <article class="card ${isSelected ? 'is-selected' : ''}" data-pi="${pi}" data-codigo="${p.codigo}">
-          <div class="card-media" data-zoom="${productImageBase(p, 0)}.png" data-caption="${escAttr(p.nome)} (${p.codigo.toUpperCase()})">
+          <div class="card-tools">
             <button class="card-select ${isSelected ? 'is-selected' : ''}" type="button"
                     data-codigo="${p.codigo}"
-                    aria-label="Selecionar ${escAttr(p.nome)} para orçamento"
+                    aria-label="${isSelected ? 'Remover' : 'Adicionar'} ${escAttr(p.nome)} ${isSelected ? 'do carrinho' : 'ao carrinho'}"
                     aria-pressed="${isSelected ? 'true' : 'false'}"
-                    title="Selecionar para orçamento">
-              <span class="card-select-check" aria-hidden="true">✓</span>
+                    title="${isSelected ? 'Remover do carrinho' : 'Adicionar ao carrinho'}">
+              <span class="card-select-check" aria-hidden="true">${isSelected
+          ? '✓'
+          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 9H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>'}</span>
             </button>
+            <div class="card-cart-quantity"${isSelected ? '' : ' hidden'}>
+              <label for="card-quantity-${escAttr(p.codigo)}">Quantidade
+                <span>no carrinho</span>
+              </label>
+              <input id="card-quantity-${escAttr(p.codigo)}" type="number" min="1" step="1"
+                value="${cartItem ? cartItem.quantidade : 1}" inputmode="numeric"
+                data-card-quantity="${escAttr(p.codigo)}"
+                aria-label="Quantidade de ${escAttr(p.nome)}">
+            </div>
+            <button class="card-favorite ${Favorites.has(p.codigo) ? 'is-favorite' : ''}" type="button"
+              data-codigo="${escAttr(p.codigo)}" data-nome="${escAttr(p.nome)}"
+              aria-label="${Favorites.has(p.codigo) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}: ${escAttr(p.nome)}"
+              aria-pressed="${Favorites.has(p.codigo) ? 'true' : 'false'}"
+              title="${Favorites.has(p.codigo) ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m12 3 2.75 5.57 6.15.89-4.45 4.34 1.05 6.13L12 17.04l-5.5 2.89 1.05-6.13L3.1 9.46l6.15-.89L12 3Z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="card-media" data-zoom="${productImageBase(p, 0)}.png" data-caption="${escAttr(p.nome)} (${p.codigo.toUpperCase()})">
             <span class="badge">${escAttr(p.badge || p.material)}</span>
             <div class="main-wrap">${imgTag(p, 0, 'card-main')}</div>
             ${thumbs}
@@ -5646,9 +6473,6 @@
               <li><span>Tema</span><b>${escAttr(p.tema)}</b></li>
               <li><span>Subgrupo</span><b>${escAttr(subgrupoLabel)}</b></li>
             </ul>
-            <div class="card-actions">
-              <a class="btn btn-gold" href="https://wa.me/${WHATSAPP}?text=${msgWhats}" target="_blank" rel="noopener">Tenho interesse</a>
-            </div>
           </div>
         </article>
       `;
@@ -5661,7 +6485,8 @@
       q: '',
       material: 'todos',
       tema: 'todos',
-      subgrupo: 'todos'
+      subgrupo: 'todos',
+      favoritesOnly: false
     };
 
     const MATERIAL_DESCRICAO = {
@@ -5716,7 +6541,18 @@
       if (!list.length) {
         wrap.innerHTML = '';
         if (empty) empty.style.display = 'block';
-        if (info) info.innerHTML = 'Nenhuma peça encontrada com os filtros selecionados.';
+        if (info) {
+          info.textContent = estado.favoritesOnly
+            ? 'Nenhum favorito encontrado com os filtros selecionados.'
+            : 'Nenhuma peça encontrada com os filtros selecionados.';
+        }
+        const emptyMessage = empty && empty.querySelector('p');
+        if (emptyMessage) {
+          emptyMessage.textContent = estado.favoritesOnly
+            ? 'Marque estrelas nos produtos ou ajuste os filtros para encontrar seus favoritos.'
+            : 'Tente outro termo de busca ou ajuste os filtros acima. Se preferir, fale conosco no WhatsApp!';
+        }
+        Favorites.render();
         return;
       }
 
@@ -5763,6 +6599,7 @@
 
       wrap.innerHTML = html;
       Selection.render();
+      Favorites.render();
       observeFadeIn();
     }
 
@@ -5770,6 +6607,7 @@
       const q = norm(estado.q);
 
       const filtrados = PRODUCTS.filter(p => {
+        if (estado.favoritesOnly && !Favorites.has(p.codigo)) return false;
         const okMaterial = estado.material === 'todos' || norm(p.material) === estado.material;
         const okTema = estado.tema === 'todos' || norm(p.tema) === estado.tema;
         const okSubgrupo = estado.subgrupo === 'todos' ||
@@ -5803,6 +6641,14 @@
     const produtosWrap = document.getElementById('produtos-wrap');
     if (produtosWrap) {
       produtosWrap.addEventListener('click', (e) => {
+        const favoriteButton = e.target.closest('.card-favorite');
+        if (favoriteButton) {
+          e.stopPropagation();
+          e.preventDefault();
+          Favorites.toggle(favoriteButton.dataset.codigo);
+          return;
+        }
+
         const selectBtn = e.target.closest('.card-select');
         if (selectBtn) {
           e.stopPropagation();
@@ -5840,6 +6686,36 @@
           const activeThumb = card.querySelector('.thumb.active');
           const idx = activeThumb ? +activeThumb.dataset.idx : 0;
           openLightboxForProduct(pi, idx);
+        }
+      });
+
+      produtosWrap.addEventListener('input', e => {
+        const quantityInput = e.target.closest('[data-card-quantity]');
+        if (!quantityInput) return;
+
+        const quantity = Number(quantityInput.value);
+        if (!Number.isInteger(quantity) || quantity < 1) return;
+
+        const id = quantityInput.dataset.cardQuantity;
+        Selection.update(id, 'quantidade', quantity);
+        Selection.render();
+        updateCartTotals();
+
+        const cartQuantityInput = document.querySelector(
+          `#reportItems [data-cart-field="quantidade"][data-codigo="${id}"]`
+        );
+        if (cartQuantityInput) cartQuantityInput.value = quantity;
+      });
+
+      produtosWrap.addEventListener('change', e => {
+        const quantityInput = e.target.closest('[data-card-quantity]');
+        if (!quantityInput) return;
+
+        const item = Selection.get(quantityInput.dataset.cardQuantity);
+        if (!item) return;
+        const quantity = Number(quantityInput.value);
+        if (!Number.isInteger(quantity) || quantity < 1) {
+          quantityInput.value = item.quantidade;
         }
       });
     }
@@ -5897,82 +6773,116 @@
     if (lbNextBtn) lbNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navLightbox(1); });
 
     /* ============================================================
-       RELATÓRIO / ORÇAMENTO
+       CARRINHO / ORÇAMENTO
        ============================================================ */
-    function openReport() {
-      const modal = document.getElementById('reportModal');
-      const items = document.getElementById('reportItems');
-      const meta = document.getElementById('reportMeta');
-      const actions = document.getElementById('reportActions');
-      if (!modal || !items) return;
+    const moneyBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+    const formatMoney = centavos => moneyBRL.format(centavos / 100);
 
-      const selected = Selection.ids
-        .map(codigo => PRODUCTS.find(p => p.codigo === codigo || p.code === codigo || p.id === codigo))
+    function updateCartTotals() {
+      const quantity = Selection.items.reduce((sum, item) => sum + item.quantidade, 0);
+      const totalCents = Selection.items.reduce(
+        (sum, item) => sum + item.quantidade * item.valorUnitario,
+        0
+      );
+      const quantityEl = document.getElementById('cartQuantityTotal');
+      const totalEl = document.getElementById('cartGrandTotal');
+      const meta = document.getElementById('reportMeta');
+      const printButton = document.getElementById('printCart');
+      const whats = document.getElementById('sendWhats');
+      const mail = document.getElementById('sendEmail');
+      const dateStr = new Date().toLocaleDateString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+
+      if (quantityEl) quantityEl.textContent = quantity;
+      if (totalEl) totalEl.textContent = formatMoney(totalCents);
+      if (meta) {
+        const products = Selection.items.length;
+        meta.textContent = `Data: ${dateStr} · ${products} ${products === 1 ? 'produto' : 'produtos'} · ${quantity} ${quantity === 1 ? 'unidade' : 'unidades'}`;
+      }
+      if (printButton) printButton.disabled = quantity === 0;
+
+      Selection.items.forEach(item => {
+        const lineTotal = document.querySelector(`[data-line-total="${item.codigo}"]`);
+        if (lineTotal) lineTotal.textContent = formatMoney(item.quantidade * item.valorUnitario);
+      });
+
+      const products = Selection.items
+        .map(item => {
+          const product = PRODUCTS.find(p => p.codigo === item.codigo);
+          if (!product) return null;
+          const subtotal = item.quantidade * item.valorUnitario;
+          return `• ${product.nome} (${product.codigo.toUpperCase()})\n  Quantidade: ${item.quantidade} · Unitário: ${formatMoney(item.valorUnitario)} · Subtotal: ${formatMoney(subtotal)}`;
+        })
         .filter(Boolean);
 
-      const now = new Date();
-      const dateStr = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-
-      meta.innerHTML = `Data: <b>${dateStr}</b> · Total de peças selecionadas: <b>${selected.length}</b>`;
-
-      if (!selected.length) {
-        items.innerHTML = `<div class="report-empty">Nenhuma peça selecionada ainda.<br>Marque itens no catálogo usando o botão <b>✓</b> no canto de cada peça para montar seu orçamento.</div>`;
-        actions.innerHTML = `<button class="btn btn-ghost" id="reportCloseBtn" type="button">Fechar</button>`;
-        const cBtn = document.getElementById('reportCloseBtn');
-        if (cBtn) cBtn.addEventListener('click', closeReport);
-      } else {
-        items.innerHTML = selected.map(p => `
-          <div class="report-item">
-            <img class="report-item-thumb" src="${productImageBase(p, 0)}.png" alt="${escAttr(p.nome)}" onerror="imgFallback(event)" data-base="${productImageBase(p, 0)}" data-nome="${escAttr(p.nome)}">
-            <div>
-              <div class="report-item-name">${escAttr(p.nome)}</div>
-              <div class="report-item-code">${escAttr(p.codigo.toUpperCase())}</div>
-              <div class="report-item-specs">${escAttr(p.medidas)} · ${escAttr(p.peso)} · ${escAttr(p.material)}</div>
-            </div>
-            <button class="report-item-remove" data-remove="${p.codigo}" aria-label="Remover ${p.nome}">✕</button>
-          </div>
-        `).join('');
-
-        actions.innerHTML = `
-          <a class="btn btn-gold" id="sendWhats" target="_blank" rel="noopener" href="#">Enviar pelo WhatsApp</a>
-          <a class="btn btn-ghost" id="sendEmail" href="#">Enviar por e-mail</a>
-          <button class="btn btn-ghost" id="reportCloseBtn" type="button">Fechar</button>
-        `;
-
-        const lines = selected.map(p =>
-          `• ${p.nome} (${p.codigo.toUpperCase()}) — ${p.material} · Medidas: ${p.medidas} · Peso: ${p.peso}`
-        );
-
-        const whatsText = encodeURIComponent(
-          'Olá, Bom Jesus! Gostaria de um orçamento para as seguintes peças:\n\n' +
-          lines.join('\n\n') +
-          '\n\nAguardo retorno sobre valores e disponibilidade. Muito obrigado(a)!'
-        );
-
-        const emailSubject = encodeURIComponent('Orçamento de Peças — Bom Jesus Artigos Religiosos');
-        const emailBody = encodeURIComponent(
-          'Olá, Bom Jesus!\n\nGostaria de solicitar um orçamento para as seguintes peças:\n\n' +
-          lines.join('\n') +
-          '\n\nAguardo retorno com informações de valores, frete e prazos.\nObrigado(a)!'
-        );
-
-        const whats = document.getElementById('sendWhats');
-        if (whats) whats.href = 'https://wa.me/' + WHATSAPP + '?text=' + whatsText;
-
-        const mail = document.getElementById('sendEmail');
-        if (mail) mail.href = 'mailto:' + EMAIL + '?subject=' + emailSubject + '&body=' + emailBody;
-
-        const closeBtn = document.getElementById('reportCloseBtn');
-        if (closeBtn) closeBtn.addEventListener('click', closeReport);
-
-        items.querySelectorAll('[data-remove]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            Selection.toggle(btn.dataset.remove);
-            openReport();
-          });
-        });
+      if (whats) {
+        const text = products.length
+          ? `Olá, Bom Jesus! Gostaria de um orçamento para os itens abaixo:\n\n${products.join('\n\n')}\n\nQuantidade total: ${quantity}\nValor total estimado: ${formatMoney(totalCents)}\n\nAguardo retorno sobre disponibilidade e condições.`
+          : '';
+        whats.href = text ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}` : '#';
+        whats.setAttribute('aria-disabled', text ? 'false' : 'true');
       }
 
+      if (mail) {
+        const subject = encodeURIComponent('Orçamento de Produtos — Bom Jesus Artigos Religiosos');
+        const body = products.length
+          ? `Olá, Bom Jesus!\n\nGostaria de solicitar um orçamento para:\n\n${products.join('\n\n')}\n\nQuantidade total: ${quantity}\nValor total estimado: ${formatMoney(totalCents)}\n\nAguardo retorno sobre disponibilidade, frete e prazos.\nObrigado(a)!`
+          : '';
+        mail.href = body
+          ? `mailto:${EMAIL}?subject=${subject}&body=${encodeURIComponent(body)}`
+          : '#';
+        mail.setAttribute('aria-disabled', body ? 'false' : 'true');
+      }
+    }
+
+    function renderCart() {
+      const items = document.getElementById('reportItems');
+      if (!items) return;
+
+      if (!Selection.items.length) {
+        items.innerHTML = '<div class="report-empty">Seu carrinho está vazio. Adicione produtos pelo catálogo.</div>';
+      } else {
+        items.innerHTML = Selection.items.map((item, index) => {
+          const product = PRODUCTS.find(p => p.codigo === item.codigo);
+          if (!product) return '';
+          return `
+            <article class="report-item" data-cart-item="${product.codigo}">
+              <span class="report-item-number" aria-label="Item ${index + 1}">${index + 1}</span>
+              <img class="report-item-thumb" src="${productImageBase(product, 0)}.png" alt="${escAttr(product.nome)}" onerror="imgFallback(event)" data-base="${productImageBase(product, 0)}" data-nome="${escAttr(product.nome)}">
+              <div>
+                <div class="report-item-name">${escAttr(product.nome)}</div>
+                <div class="report-item-details">
+                  <span class="report-item-code">${escAttr(product.codigo.toUpperCase())}</span>
+                  <span>Medida: ${escAttr(product.medidas)}</span>
+                  <span>Material: ${escAttr(product.material)}</span>
+                </div>
+              </div>
+              <button class="report-item-remove" data-remove="${product.codigo}" type="button" aria-label="Remover ${escAttr(product.nome)} do carrinho" title="Remover do carrinho">✕</button>
+              <div class="report-item-controls">
+                <label class="report-field"><span>Quantidade</span>
+                  <input type="number" min="1" step="1" value="${item.quantidade}" inputmode="numeric" data-cart-field="quantidade" data-codigo="${product.codigo}" aria-label="Quantidade de ${escAttr(product.nome)}">
+                </label>
+                <label class="report-field"><span>Valor unitário</span>
+                  <input type="number" min="0" step="0.01" value="${(item.valorUnitario / 100).toFixed(2)}" inputmode="decimal" data-cart-field="valorUnitario" data-codigo="${product.codigo}" aria-label="Valor unitário de ${escAttr(product.nome)}">
+                </label>
+                <div class="report-field"><span>Valor total</span>
+                  <strong class="report-line-total" data-line-total="${product.codigo}">${formatMoney(item.quantidade * item.valorUnitario)}</strong>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      updateCartTotals();
+    }
+
+    function openReport() {
+      const modal = document.getElementById('reportModal');
+      if (!modal) return;
+
+      renderCart();
       modal.classList.add('open');
       document.body.classList.add('no-scroll');
     }
@@ -5981,7 +6891,74 @@
       const modal = document.getElementById('reportModal');
       if (!modal) return;
       modal.classList.remove('open');
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove('no-scroll', 'print-cart');
+    }
+
+    function renderFavoritesReport() {
+      const content = document.getElementById('favoritesReportContent');
+      const meta = document.getElementById('favoritesReportMeta');
+      const printButton = document.getElementById('printFavorites');
+      if (!content || !meta) return;
+
+      const products = PRODUCTS.filter(product => Favorites.has(product.codigo));
+      const date = new Date().toLocaleDateString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+      meta.textContent = `Data: ${date} · ${products.length} ${products.length === 1 ? 'produto favorito' : 'produtos favoritos'}`;
+      if (printButton) printButton.disabled = products.length === 0;
+
+      if (!products.length) {
+        content.innerHTML = '<p class="favorites-report-empty">Sua lista de favoritos está vazia.</p>';
+        return;
+      }
+
+      content.innerHTML = `
+        <table class="favorites-report-table">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Foto</th>
+              <th scope="col">Código</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Medida</th>
+              <th scope="col">Peso</th>
+              <th scope="col">Material</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${products.map((product, index) => {
+          const imageBase = productImageBase(product, 0);
+          return `
+              <tr>
+                <td>${index + 1}</td>
+                <td><img class="favorites-report-image" src="${imageBase}.png"
+                  alt="${escAttr(product.nome)}" loading="eager" data-base="${imageBase}"
+                  data-nome="${escAttr(product.nome)}" onerror="imgFallback(event)"></td>
+                <td>${escAttr(product.codigo.toUpperCase())}</td>
+                <td>${escAttr(product.nome)}</td>
+                <td>${escAttr(product.medidas)}</td>
+                <td>${escAttr(product.peso)}</td>
+                <td>${escAttr(product.material)}</td>
+              </tr>`;
+        }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function openFavoritesReport() {
+      if (!Favorites.items.length) return;
+      closeReport();
+      renderFavoritesReport();
+      const modal = document.getElementById('favoritesReportModal');
+      if (modal) modal.classList.add('open');
+      document.body.classList.add('no-scroll');
+    }
+
+    function closeFavoritesReport() {
+      const modal = document.getElementById('favoritesReportModal');
+      if (modal) modal.classList.remove('open');
+      document.body.classList.remove('no-scroll', 'print-favorites');
     }
 
     /* ============================================================
@@ -6016,6 +6993,24 @@
       });
     });
 
+    const favoritesFilterButton = document.getElementById('toggleFavoritesFilter');
+    if (favoritesFilterButton) {
+      favoritesFilterButton.addEventListener('click', () => {
+        estado.favoritesOnly = !estado.favoritesOnly;
+        if (estado.favoritesOnly) {
+          estado.q = '';
+          estado.material = 'todos';
+          estado.tema = 'todos';
+          estado.subgrupo = 'todos';
+          if (buscaInput) buscaInput.value = '';
+          document.querySelectorAll('.chip[data-tipo]').forEach(chip => {
+            chip.classList.toggle('active', chip.dataset.valor === 'todos');
+          });
+        }
+        applyFilters();
+      });
+    }
+
     const buscaInput = document.getElementById('busca');
     const limparBtn = document.getElementById('limpar');
 
@@ -6048,12 +7043,119 @@
     const openReportBtn = document.getElementById('openReport');
     if (openReportBtn) openReportBtn.addEventListener('click', openReport);
 
+    const openFavoritesReportBtn = document.getElementById('openFavoritesReport');
+    if (openFavoritesReportBtn) {
+      openFavoritesReportBtn.addEventListener('click', openFavoritesReport);
+    }
+
+    ['favoritesReportClose', 'closeFavoritesReport'].forEach(id => {
+      const button = document.getElementById(id);
+      if (button) button.addEventListener('click', closeFavoritesReport);
+    });
+
+    const favoritesReportModal = document.getElementById('favoritesReportModal');
+    if (favoritesReportModal) {
+      favoritesReportModal.addEventListener('click', e => {
+        if (e.target === favoritesReportModal) closeFavoritesReport();
+      });
+    }
+
+    const printFavoritesButton = document.getElementById('printFavorites');
+    if (printFavoritesButton) {
+      printFavoritesButton.addEventListener('click', () => {
+        document.body.classList.add('print-favorites');
+        window.print();
+      });
+    }
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove('print-cart', 'print-favorites');
+    });
+
     const clearSelBtn = document.getElementById('clearSelection');
     if (clearSelBtn) {
       clearSelBtn.addEventListener('click', () => {
         Selection.clear();
       });
     }
+
+    const reportItemsEl = document.getElementById('reportItems');
+    if (reportItemsEl) {
+      reportItemsEl.addEventListener('click', e => {
+        const removeButton = e.target.closest('[data-remove]');
+        if (!removeButton) return;
+        Selection.remove(removeButton.dataset.remove);
+        renderCart();
+      });
+
+      reportItemsEl.addEventListener('input', e => {
+        const field = e.target.closest('[data-cart-field]');
+        if (!field) return;
+
+        const id = field.dataset.codigo;
+        if (field.dataset.cartField === 'quantidade') {
+          const value = Number(field.value);
+          if (Number.isInteger(value) && value > 0) {
+            Selection.update(id, 'quantidade', value);
+            Selection.render();
+          }
+        } else {
+          const value = Number(field.value);
+          if (Number.isFinite(value) && value >= 0) {
+            Selection.update(id, 'valorUnitario', Math.round(value * 100));
+          }
+        }
+        updateCartTotals();
+        const cardQuantityInput = document.querySelector(
+          `#produtos-wrap [data-card-quantity="${field.dataset.codigo}"]`
+        );
+        const cartItem = Selection.get(field.dataset.codigo);
+        if (cardQuantityInput && cartItem) cardQuantityInput.value = cartItem.quantidade;
+      });
+
+      reportItemsEl.addEventListener('change', e => {
+        const field = e.target.closest('[data-cart-field]');
+        if (!field) return;
+
+        const item = Selection.get(field.dataset.codigo);
+        if (!item) return;
+        if (field.dataset.cartField === 'quantidade') {
+          const value = Number(field.value);
+          if (!Number.isInteger(value) || value < 1) field.value = item.quantidade;
+        } else {
+          const value = Number(field.value);
+          if (!Number.isFinite(value) || value < 0) field.value = (item.valorUnitario / 100).toFixed(2);
+        }
+        updateCartTotals();
+      });
+    }
+
+    const printCartBtn = document.getElementById('printCart');
+    if (printCartBtn) {
+      printCartBtn.addEventListener('click', () => {
+        document.body.classList.add('print-cart');
+        window.print();
+      });
+    }
+
+    const addProductsBtn = document.getElementById('addProducts');
+    if (addProductsBtn) {
+      addProductsBtn.addEventListener('click', () => {
+        closeReport();
+        document.getElementById('produtos').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    ['sendWhats', 'sendEmail'].forEach(id => {
+      const link = document.getElementById(id);
+      if (link) {
+        link.addEventListener('click', e => {
+          if (link.getAttribute('aria-disabled') === 'true') e.preventDefault();
+        });
+      }
+    });
+
+    const reportCloseAction = document.getElementById('reportCloseBtn');
+    if (reportCloseAction) reportCloseAction.addEventListener('click', closeReport);
 
     const reportCloseBtn = document.getElementById('reportClose');
     if (reportCloseBtn) reportCloseBtn.addEventListener('click', closeReport);
@@ -6081,6 +7183,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (reportModalEl && reportModalEl.classList.contains('open')) closeReport();
+        if (favoritesReportModal && favoritesReportModal.classList.contains('open')) closeFavoritesReport();
         if (lightboxEl && lightboxEl.classList.contains('open')) closeLightbox();
       }
       if (lightboxEl && lightboxEl.classList.contains('open')) {
@@ -6676,6 +7779,7 @@
        INICIALIZAÇÃO
        ============================================================ */
     Selection.init();
+    Favorites.init();
     applyFilters();
     observeFadeIn();
 
