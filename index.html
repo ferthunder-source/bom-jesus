@@ -4690,8 +4690,8 @@
 
     <nav class="nav" id="nav" aria-label="Navegação principal">
       <a href="#inicio" class="nav-inicio">Início</a>
-      <a href="#historia">História</a>
       <a href="#produtos">Produtos</a>
+      <a href="#historia">História</a>
       <a href="#faq">FAQ</a>
       <a href="#contato">Contato</a>
       <a href="https://wa.me/5512981997550?text=Ol%C3%A1%2C%20Bom%20Jesus!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20or%C3%A7amento."
@@ -4840,6 +4840,70 @@
         </div>
       </div>
 
+    </section>
+
+    <!-- PRODUTOS -->
+    <section class="section" id="produtos">
+      <div class="wrap">
+        <div class="sec-head fade-in">
+          <span class="sec-kicker">Coleção Bom Jesus</span>
+          <h2 class="glow-title"><span class="gold">Nossas Peças</span></h2>
+          <div class="divider"></div>
+          <p>Imagens sacras, artigos devocionais, acessórios e presentes em diferentes materiais. Escolha seus modelos,
+            confira os detalhes e monte sua lista de orçamento.</p>
+        </div>
+
+        <div class="searchbar">
+          <div class="search-input-wrap">
+            <label for="busca" class="sr-only">Buscar peças</label>
+            <input type="search" id="busca" placeholder="Buscar por nome, código, material ou subgrupo…"
+              autocomplete="off">
+            <button id="limpar" aria-label="Limpar busca" title="Limpar busca">✕</button>
+          </div>
+        </div>
+
+        <!-- GRUPO MATERIAL -->
+        <div class="chips fade-in" id="chips-material" role="group" aria-label="Filtro de Material">
+          <span class="chips-label">Material</span>
+          <button class="chip active" type="button" data-tipo="material" data-valor="todos">Todos</button>
+        </div>
+
+        <!-- GRUPO TEMA -->
+        <div class="chips fade-in" id="chips-tema" role="group" aria-label="Filtro de Tema">
+          <span class="chips-label">Tema</span>
+          <button class="chip active" type="button" data-tipo="tema" data-valor="todos">Todos</button>
+        </div>
+
+        <!-- SUBGRUPOS (PRODUTOS RELIGIOSOS) -->
+        <div class="chips fade-in" id="chips-subgrupo" role="group" aria-label="Filtro de Subgrupos Religiosos">
+          <span class="chips-label">Subgrupo Religioso</span>
+          <button class="chip active" type="button" data-tipo="subgrupo" data-valor="todos">Todos</button>
+        </div>
+
+        <div class="result-info" id="resultInfo" aria-live="polite"></div>
+
+        <div class="report-cta-wrap">
+          <p class="report-hint">Adicione itens ao carrinho para preparar um orçamento ou marque seus favoritos para
+            consultar depois.</p>
+          <button class="btn btn-ghost" id="openReportTop" type="button">✦ Ver carrinho de orçamento</button>
+          <div class="favorite-actions">
+            <button class="btn btn-ghost" id="toggleFavoritesFilter" type="button" aria-pressed="false">
+              ☆ Filtrar favoritos (0)
+            </button>
+            <button class="btn btn-ghost" id="openFavoritesReport" type="button" disabled>
+              ♡ Relatório de favoritos
+            </button>
+          </div>
+        </div>
+
+        <div id="produtos-wrap"></div>
+
+        <div class="empty" id="emptyState" style="display:none;">
+          <div class="big">✦</div>
+          <h3>Nenhuma peça encontrada</h3>
+          <p>Tente outro termo de busca ou ajuste os filtros acima. Se preferir, fale conosco no WhatsApp!</p>
+        </div>
+      </div>
     </section>
 
     <!-- HISTÓRIA -->
@@ -4995,70 +5059,6 @@
       </div>
     </section>
 
-
-    <!-- PRODUTOS -->
-    <section class="section" id="produtos">
-      <div class="wrap">
-        <div class="sec-head fade-in">
-          <span class="sec-kicker">Coleção Bom Jesus</span>
-          <h2 class="glow-title"><span class="gold">Nossas Peças</span></h2>
-          <div class="divider"></div>
-          <p>Imagens sacras, artigos devocionais, acessórios e presentes em diferentes materiais. Escolha seus modelos,
-            confira os detalhes e monte sua lista de orçamento.</p>
-        </div>
-
-        <div class="searchbar">
-          <div class="search-input-wrap">
-            <label for="busca" class="sr-only">Buscar peças</label>
-            <input type="search" id="busca" placeholder="Buscar por nome, código, material ou subgrupo…"
-              autocomplete="off">
-            <button id="limpar" aria-label="Limpar busca" title="Limpar busca">✕</button>
-          </div>
-        </div>
-
-        <!-- GRUPO MATERIAL -->
-        <div class="chips fade-in" id="chips-material" role="group" aria-label="Filtro de Material">
-          <span class="chips-label">Material</span>
-          <button class="chip active" type="button" data-tipo="material" data-valor="todos">Todos</button>
-        </div>
-
-        <!-- GRUPO TEMA -->
-        <div class="chips fade-in" id="chips-tema" role="group" aria-label="Filtro de Tema">
-          <span class="chips-label">Tema</span>
-          <button class="chip active" type="button" data-tipo="tema" data-valor="todos">Todos</button>
-        </div>
-
-        <!-- SUBGRUPOS (PRODUTOS RELIGIOSOS) -->
-        <div class="chips fade-in" id="chips-subgrupo" role="group" aria-label="Filtro de Subgrupos Religiosos">
-          <span class="chips-label">Subgrupo Religioso</span>
-          <button class="chip active" type="button" data-tipo="subgrupo" data-valor="todos">Todos</button>
-        </div>
-
-        <div class="result-info" id="resultInfo" aria-live="polite"></div>
-
-        <div class="report-cta-wrap">
-          <p class="report-hint">Adicione itens ao carrinho para preparar um orçamento ou marque seus favoritos para
-            consultar depois.</p>
-          <button class="btn btn-ghost" id="openReportTop" type="button">✦ Ver carrinho de orçamento</button>
-          <div class="favorite-actions">
-            <button class="btn btn-ghost" id="toggleFavoritesFilter" type="button" aria-pressed="false">
-              ☆ Filtrar favoritos (0)
-            </button>
-            <button class="btn btn-ghost" id="openFavoritesReport" type="button" disabled>
-              ♡ Relatório de favoritos
-            </button>
-          </div>
-        </div>
-
-        <div id="produtos-wrap"></div>
-
-        <div class="empty" id="emptyState" style="display:none;">
-          <div class="big">✦</div>
-          <h3>Nenhuma peça encontrada</h3>
-          <p>Tente outro termo de busca ou ajuste os filtros acima. Se preferir, fale conosco no WhatsApp!</p>
-        </div>
-      </div>
-    </section>
 
     <!-- DEPOIMENTOS -->
     <section class="section">
@@ -5269,8 +5269,8 @@
           <h4>Navegação</h4>
           <ul>
             <li><a href="#inicio">Início</a></li>
-            <li><a href="#historia">História</a></li>
             <li><a href="#produtos">Produtos</a></li>
+            <li><a href="#historia">História</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
